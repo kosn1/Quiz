@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Time Quiz</string>
+    <string name="questionText" />
+    <string name="rbutton1" />
+    <string name="rbutton2" />
+    <string name="rbutton3" />
+    <string name="rbutton4" />
+    <string name="time" />
+    <string name="scoreLabel">Score: </string>
+    <string name="scoreValue" />
+    <string name="answer">Answer</string>
+    <string name="noBonus">NO BONUS</string>
+    <string name="gameover">Game Over!</string>
+    <string name="finalScore">Final Score:</string>
+    <string name="finalScoreValue" />
+</resources>
