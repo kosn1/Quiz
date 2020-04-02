@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean counting; //true if time is still running
     private boolean addBonus; //true if bonus should be added
 
-    //QnA array
+    //QnA arrays
     private String[][] array= {
             {"Ποια είναι η πρωτεύουσα της Γαλλίας;","Παρίσι", "Λιόν", "Γκρενόμπλ", "Νίκαια"},
             {"Ποια ΔΕΝ είναι Γαλλική ομάδα ποδοσφαίρου;", "Παρί Σεν Ζερμέν", "Τουλούζ", "Μπαρτσελόνα", "Μονακό"},
@@ -26,16 +26,23 @@ public class MainActivity extends AppCompatActivity {
             {"Πότε ξεκίνησε η Γαλλική Επανάσταση;", "1789","1799","1804","1821"}
     };
 
+    private String[][] array2= {
+            {"Ποια είναι η πρωτεύουσα της Αγγλίας;","Μάντσεστερ", "Λονδίνο", "Μπράιτον", "Μπέρμιγχαμ"},
+            {"Ποια ΔΕΝ είναι Αγγλική ομάδα ποδοσφαίρου;", "Τσέλσι", "Λίβερπουλ", "Λέστερ", "Ρέιντζερς"},
+            {"Πόσα παιδιά έχει η βασίλισσα Ελισάβετ;", "1", "2", "3", "4"},
+            {"Ποιό είναι το επίσημο νόμισμα της Αγγλίας;", "Λίρα","Ευρώ","Δολάριο","Κορώνα"}
+    };
 
     private int[] correctAnswers={1,3,4,1}; //correct Answers index Array
+    private int[] correctAnswers2={2,4,4,1};
     private int currentQuestion; //index of current Question
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         if (savedInstanceState!=null){
             sec = savedInstanceState.getInt("sec");
             score =savedInstanceState.getInt("score");
@@ -48,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             counting=true;
             addBonus=true;
             currentQuestion=0;
+
         }
         TextView scoreView = findViewById(R.id.scoreValueTextView);
         scoreView.setText(String.valueOf(score));
@@ -78,29 +86,52 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void nextQuestion() {
-        if(currentQuestion<array.length){
-            TextView question = findViewById(R.id.textViewQuestionText);
-            question.setText(array[currentQuestion][0]);
-            RadioButton rb1 = findViewById(R.id.rb1);
-            rb1.setText(array[currentQuestion][1]);
-            RadioButton rb2 = findViewById(R.id.rb2);
-            rb2.setText(array[currentQuestion][2]);
-            RadioButton rb3 = findViewById(R.id.rb3);
-            rb3.setText(array[currentQuestion][3]);
-            RadioButton rb4 = findViewById(R.id.rb4);
-            rb4.setText(array[currentQuestion][4]);
+        Intent intent=getIntent();
+        String str = intent.getStringExtra("value");
+        if(str.equals("France")) {
+            if (currentQuestion < array.length) {
+                TextView question = findViewById(R.id.textViewQuestionText);
+                question.setText(array[currentQuestion][0]);
+                RadioButton rb1 = findViewById(R.id.rb1);
+                rb1.setText(array[currentQuestion][1]);
+                RadioButton rb2 = findViewById(R.id.rb2);
+                rb2.setText(array[currentQuestion][2]);
+                RadioButton rb3 = findViewById(R.id.rb3);
+                rb3.setText(array[currentQuestion][3]);
+                RadioButton rb4 = findViewById(R.id.rb4);
+                rb4.setText(array[currentQuestion][4]);
+
+            }
+        }else if(str.equals("England")){
+            if(currentQuestion < array2.length) {
+                TextView question = findViewById(R.id.textViewQuestionText);
+                question.setText(array2[currentQuestion][0]);
+                RadioButton rb1 = findViewById(R.id.rb1);
+                rb1.setText(array2[currentQuestion][1]);
+                RadioButton rb2 = findViewById(R.id.rb2);
+                rb2.setText(array2[currentQuestion][2]);
+                RadioButton rb3 = findViewById(R.id.rb3);
+                rb3.setText(array2[currentQuestion][3]);
+                RadioButton rb4 = findViewById(R.id.rb4);
+                rb4.setText(array2[currentQuestion][4]);
+            }
         }
     }
 
     public void onClickAnswer(View view) {
+        Intent intentChoice=getIntent();
+        String str = intentChoice.getStringExtra("value");
+        int correctAnswer=0;
+        if(str.equals("France")){
+             correctAnswer = correctAnswers[currentQuestion];
+        }else if(str.equals("England")) {
+             correctAnswer = correctAnswers2[currentQuestion];
+        }
 
-
-
-        int correctAnswer = correctAnswers[currentQuestion];
         int selectedAnswer = getSelectedAnswer();
         RadioGroup radioButtonGroup = findViewById(R.id.radioGroup);
         radioButtonGroup.clearCheck();
-        ScrollView sv = (ScrollView)findViewById(R.id.scrv);
+        ScrollView sv = findViewById(R.id.scrv);
         sv.scrollTo(0, sv.getTop());
 
         //Update Score with bonus or not
@@ -115,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Display new score
         TextView scoreText = findViewById(R.id.scoreValueTextView);
-        scoreText.setText(" "+score);
+        scoreText.setText(String.valueOf(score));
         currentQuestion++;
 
         //if no more questions

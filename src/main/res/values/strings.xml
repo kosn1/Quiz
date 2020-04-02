@@ -13,4 +13,5 @@
     <string name="gameover">Game Over!</string>
     <string name="finalScore">Final Score:</string>
     <string name="finalScoreValue" />
+    <string name="categoryChooser">Please choose a category:</string>
 </resources>
